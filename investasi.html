@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investasi & Kemitraan - Tahu Bakso MAMAT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Three.js Canvas */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1E88E5, #1565C0);
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        /* Header */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            background: url('IMG-20251018-WA0038.jpg') center/cover no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 136, 229, 0.9) 0%, rgba(21, 101, 192, 0.9) 100%);
+            z-index: 1;
+        }
+
+        .header-content {
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        header h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            margin-bottom: 40px;
+            opacity: 0.95;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            display: block;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-label {
+            font-size: 1em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        /* Section Base */
+        section {
+            padding: 100px 20px;
+            position: relative;
+            background: white;
+        }
+
+        section h2 {
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            text-align: center;
+            color: #1E88E5;
+            position: relative;
+        }
+
+        section h2:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #1E88E5, #1565C0);
+            border-radius: 2px;
+        }
+
+        /* Intro */
+        .intro {
+            background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+            text-align: center;
+        }
+
+        .intro p {
+            font-size: 1.2em;
+            max-width: 900px;
+            margin: 0 auto 25px;
+            line-height: 1.8;
+        }
+
+        /* Skema */
+        .skema {
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skema-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-top: 60px;
+        }
+
+        .skema-card {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 40px;
+            border-radius: 20px;
+            border-left: 5px solid #1E88E5;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skema-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .skema-card:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .skema-card:hover:before {
+            opacity: 1;
+        }
+
+        .skema-card h3 {
+            color: #1565C0;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .skema-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .skema-card ul li {
+            padding: 12px 0 12px 35px;
+            position: relative;
+            font-size: 1.1em;
+            line-height: 1.7;
+        }
+
+        .skema-card ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        /* Data Keuangan */
+        .data {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            position: relative;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .data-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 111, 0, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .data-card:hover:before {
+            left: 100%;
+        }
+
+        .data-card:hover {
+            transform: translateY(-15px) rotate(2deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-color: #FF6F00;
+        }
+
+        .data-card .angka {
+            font-size: 2.8em;
+            font-weight: bold;
+            color: #FF6F00;
+            margin-bottom: 15px;
+            text-shadow: 0 3px 10px rgba(255, 111, 0, 0.2);
+        }
+
+        .data-card .label {
+            font-size: 1.1em;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Resiko */
+        .resiko {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+        }
+
+        .resiko-list {
+            max-width: 900px;
+            margin: 50px auto 0;
+        }
+
+        .resiko-item {
+            background: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 20px;
+            border-left: 5px solid #E53935;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+        }
+
+        .resiko-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .resiko-item h3 {
+            color: #E53935;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .resiko-item p {
+            line-height: 1.8;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        /* Target Investor */
+        .target {
+            background: white;
+        }
+
+        .target-content {
+            max-width: 900px;
+            margin: 50px auto 0;
+        }
+
+        .target-content>p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            color: #1565C0;
+            font-weight: 600;
+        }
+
+        .target-content ul {
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .target-content ul li {
+            background: #f0f7ff;
+            padding: 20px 25px 20px 60px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            position: relative;
+            font-size: 1.1em;
+            line-height: 1.8;
+            transition: all 0.3s ease;
+            border-left: 4px solid #1E88E5;
+        }
+
+        .target-content ul li:before {
+            content: "👤";
+            position: absolute;
+            left: 20px;
+            font-size: 1.8em;
+        }
+
+        .target-content ul li:hover {
+            transform: translateX(10px);
+            background: #e3f2fd;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Transparansi */
+        .transparansi {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        }
+
+        .transparansi-content {
+            max-width: 1000px;
+            margin: 50px auto 0;
+        }
+
+        .transparansi-box {
+            background: white;
+            padding: 45px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .transparansi-box p {
+            margin-bottom: 25px;
+            font-size: 1.15em;
+            line-height: 1.9;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .transparansi-box p:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+            font-size: 1.5em;
+        }
+
+        /* ROI Calculator */
+        .roi-calculator {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            position: relative;
+        }
+
+        .calculator-box {
+            max-width: 600px;
+            margin: 50px auto 0;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculator-input {
+            margin-bottom: 30px;
+        }
+
+        .calculator-input label {
+            display: block;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #1565C0;
+            font-weight: 600;
+        }
+
+        .calculator-input input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+        .calculator-input input:focus {
+            outline: none;
+            border-color: #1E88E5;
+        }
+
+        .calculator-result {
+            background: linear-gradient(135deg, #1E88E5 0%, #1565C0 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .calculator-result h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .calculator-result .result-value {
+            font-size: 3em;
+            font-weight: bold;
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, #1565C0 0%, #1E88E5 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('IMG-20251018-WA0036.jpg') center/cover;
+            opacity: 0.15;
+            z-index: 1;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta h2 {
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta p {
+            font-size: 1.3em;
+            margin: 25px 0 40px;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 20px 50px;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            min-width: 220px;
+        }
+
+        .btn:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 1px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            transition: all 0.6s ease;
+        }
+
+        .btn:hover:after {
+            width: 300%;
+            height: 300%;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #1E88E5;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: #4CAF50;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2em;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            z-index: 100;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        /* Footer Credits */
+        .footer-credits {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-credits p {
+            font-size: 0.95em;
+            opacity: 0.85;
+        }
+
+        .dev-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dev-link:hover {
+            color: #E91E63;
+            transform: translateX(5px);
+        }
+
+        .instagram-icon {
+            font-size: 1.2em;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .dev-link:hover .instagram-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* Footer Social Button */
+        .footer-social {
+            margin-top: 25px;
+        }
+
+        .social-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #833AB4 0%, #C13584 50%, #E1306C 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.95em;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(225, 48, 108, 0.3);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(225, 48, 108, 0.5);
+        }
+
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .skema-content {
+                grid-template-columns: 1fr;
+            }
+
+            .header-stats {
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                min-height: 90vh;
+                padding: 40px 20px;
+            }
+
+            section {
+                padding: 80px 20px;
+            }
+
+            section h2 {
+                font-size: 2em;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 1.5em;
+            }
+
+            .stat-number {
+                font-size: 2.5em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Scroll Progress -->
+    <div class="scroll-progress"></div>
+
+    <!-- 3D Canvas Container -->
+    <div id="canvas-container"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-overlay"></div>
+        <div class="header-content">
+            <h1>INVESTASI & KEMITRAAN</h1>
+            <p>Berkembang Bersama Tahu Bakso MAMAT</p>
+            <div class="header-stats">
+                <div class="stat-item">
+                    <span class="stat-number">4+</span>
+                    <span class="stat-label">Tahun Beroperasi</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">25-30%</span>
+                    <span class="stat-label">Margin Keuntungan</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">12-18</span>
+                    <span class="stat-label">Bulan ROI</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Intro -->
+    <section class="intro">
+        <div class="container">
+            <h2>Mengapa Berinvestasi di Tahu Bakso MAMAT?</h2>
+            <p>Kami membuka peluang investasi bagi Anda yang ingin mendukung bisnis kuliner lokal dengan potensi
+                pertumbuhan stabil. Tahu Bakso MAMAT telah beroperasi 4+ tahun dengan pelanggan setia dan sistem
+                operasional yang teruji.</p>
+            <p><strong>Transparansi, kejujuran, dan pertumbuhan bersama adalah komitmen kami.</strong></p>
+        </div>
+    </section>
+
+    <!-- Skema Bagi Hasil -->
+    <section class="skema">
+        <div class="container">
+            <h2>Skema Bagi Hasil</h2>
+            <div class="skema-content">
+                <div class="skema-card">
+                    <h3>📊 Model Kemitraan</h3>
+                    <ul>
+                        <li>Sistem <strong>bagi hasil (profit sharing)</strong></li>
+                        <li>Investor mendapatkan <strong>30% dari keuntungan bersih bulanan</strong></li>
+                        <li>Pemilik mengelola operasional harian</li>
+                        <li>Laporan keuangan transparan setiap bulan</li>
+                        <li>Kontrak kemitraan 12 bulan (dapat diperpanjang)</li>
+                    </ul>
+                </div>
+                <div class="skema-card">
+                    <h3>💼 Investasi Minimum</h3>
+                    <ul>
+                        <li>Modal awal: <strong>Rp 10.000.000</strong></li>
+                        <li>Digunakan untuk: peningkatan kapasitas produksi, pembelian peralatan tambahan, dan modal
+                            kerja</li>
+                        <li>Estimasi ROI: <strong>12-18 bulan</strong></li>
+                        <li>Pembagian profit: <strong>setiap akhir bulan</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Keuangan -->
+    <section class="data">
+        <div class="container">
+            <h2>Data Keuangan Jujur</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px;">Berikut adalah rata-rata data
+                operasional bulanan Tahu Bakso MAMAT</p>
+            <div class="data-grid">
+                <div class="data-card">
+                    <div class="angka">~Rp 6-8 jt</div>
+                    <div class="label">Omzet Bulanan</div>
+                </div>
+                <div class="data-card">
+                    <div class="angka">~Rp 4-5 jt</div>
+                    <div class="label">Biaya Operasional</div>
+                </div>
+                <div class="data-card">
+                    <div class="angka">~Rp 1,5-2 jt</div>
+                    <div class="label">Keuntungan Bersih</div>
+                </div>
+                <div class="data-card">
+                    <div class="angka">25-30%</div>
+                    <div class="label">Margin Keuntungan</div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 40px; font-style: italic; color: #666; font-size: 1.05em;">*Data
+                diambil dari rata-rata 6 bulan terakhir. Fluktuasi dapat terjadi tergantung musim dan kondisi pasar.</p>
+        </div>
+    </section>
+
+    <!-- ROI Calculator -->
+    <section class="roi-calculator">
+        <div class="container">
+            <h2>Kalkulator Proyeksi ROI</h2>
+            <div class="calculator-box">
+                <div class="calculator-input">
+                    <label for="investAmount">Jumlah Investasi (Rp)</label>
+                    <input type="number" id="investAmount" placeholder="10000000" value="10000000">
+                </div>
+                <div class="calculator-input">
+                    <label for="monthlyProfit">Keuntungan Bersih Bulanan (Rp)</label>
+                    <input type="number" id="monthlyProfit" placeholder="1750000" value="1750000">
+                </div>
+                <div class="calculator-input">
+                    <label for="profitShare">Persentase Bagi Hasil (%)</label>
+                    <input type="number" id="profitShare" placeholder="30" value="30">
+                </div>
+                <div class="calculator-result">
+                    <h3>Estimasi Return per Bulan</h3>
+                    <div class="result-value" id="monthlyReturn">Rp 525.000</div>
+                    <p style="margin-top: 15px; opacity: 0.9;">ROI Tercapai dalam <span id="roiMonths"
+                            style="font-weight: bold; font-size: 1.3em;">19</span> bulan</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resiko & Kendala -->
+    <section class="resiko">
+        <div class="container">
+            <h2>Resiko & Kendala Bisnis</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px;">Kami percaya pada transparansi penuh.
+                Berikut adalah kendala yang kami hadapi:</p>
+            <div class="resiko-list">
+                <div class="resiko-item">
+                    <h3>⚠️ Putaran Uang Kecil</h3>
+                    <p>Harga jual Rp 5.000 untuk 4 buah menghasilkan cash flow harian yang terbatas. Butuh volume tinggi
+                        untuk mencapai profit maksimal.</p>
+                </div>
+                <div class="resiko-item">
+                    <h3>🌧️ Ketergantungan Cuaca</h3>
+                    <p>Penjualan menurun signifikan saat hujan atau cuaca buruk karena model bisnis gerobak pinggir
+                        jalan.</p>
+                </div>
+                <div class="resiko-item">
+                    <h3>💸 Fluktuasi Harga Bahan Baku</h3>
+                    <p>Kenaikan harga daging dan tahu berdampak langsung pada margin keuntungan tanpa bisa menaikkan
+                        harga jual secara drastis.</p>
+                </div>
+                <div class="resiko-item">
+                    <h3>🏪 Kompetisi Ketat</h3>
+                    <p>Banyak kompetitor dengan produk serupa di area sekitar, memerlukan diferensiasi dan loyalitas
+                        pelanggan yang kuat.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Target Investor -->
+    <section class="target">
+        <div class="container">
+            <h2>Siapa Target Investor Kami?</h2>
+            <div class="target-content">
+                <p>Kami mencari investor yang:</p>
+                <ul>
+                    <li><strong>Memahami bisnis kuliner lokal</strong> dan tertarik mendukung UMKM</li>
+                    <li><strong>Berorientasi jangka panjang</strong>, tidak mengharapkan return cepat dalam 3-6 bulan
+                    </li>
+                    <li><strong>Bersedia terlibat</strong> dalam diskusi strategi pengembangan bisnis (opsional)</li>
+                    <li><strong>Menghargai transparansi</strong> dan bersedia menerima laporan keuangan bulanan</li>
+                    <li><strong>Memiliki visi sosial</strong> untuk membantu keberlangsungan ekonomi keluarga kecil</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transparansi -->
+    <section class="transparansi">
+        <div class="container">
+            <h2>Komitmen Transparansi Kami</h2>
+            <div class="transparansi-content">
+                <div class="transparansi-box">
+                    <p><strong>Laporan keuangan bulanan</strong> berisi: omzet harian, biaya operasional, keuntungan
+                        bersih, dan pembagian profit</p>
+                    <p><strong>Akses ke data penjualan</strong> via Google Sheets atau aplikasi sederhana (untuk
+                        transparansi penuh)</p>
+                    <p><strong>Diskusi terbuka</strong> mengenai kendala dan strategi pengembangan bisnis setiap kuartal
+                    </p>
+                    <p><strong>Tidak ada biaya tersembunyi</strong> — semua pengeluaran dilaporkan secara rinci</p>
+                    <p><strong>Kontrak resmi bermaterai</strong> yang melindungi hak kedua belah pihak</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container cta-content">
+            <h2>Tertarik Berinvestasi?</h2>
+            <p>Hubungi kami untuk diskusi lebih lanjut atau kunjungi langsung untuk melihat operasional kami</p>
+            <div class="cta-buttons">
+                <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20investasi%20Tahu%20Bakso%20MAMAT"
+                    class="btn btn-secondary">📱 Diskusi via WhatsApp</a>
+                <a href="index.html" class="btn btn-primary">🏠 Kembali ke Halaman Utama</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Tahu Bakso MAMAT. Semua Hak Dilindungi.</p>
+            <p>Dibuat dengan ❤️ untuk pelanggan setia kami</p>
+            <div class="footer-credits">
+                <p>
+                    Website Developer:
+                    <a href="https://www.instagram.com/mustdhiya_tech/" target="_blank" rel="noopener noreferrer"
+                        class="dev-link">
+                        <span class="instagram-icon">📷</span> @mustdhiya_tech
+                    </a>
+                </p>
+            </div>
+            <div class="footer-social">
+                <a href="https://www.instagram.com/mustdhiya_tech/" target="_blank" rel="noopener noreferrer"
+                    class="social-btn">
+                    Kunjungi Instagram Developer
+                </a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/628385899148?text=Halo,%20saya%20tertarik%20dengan%20investasi%20Tahu%20Bakso%20MAMAT"
+        class="whatsapp-float">💬</a>
+
+    <!-- Load Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Main Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Scroll Progress
+            window.addEventListener('scroll', function () {
+                const scrollTop = window.pageYOffset;
+                const docHeight = document.body.offsetHeight;
+                const winHeight = window.innerHeight;
+                const scrollPercent = scrollTop / (docHeight - winHeight);
+                const scrollPercentRounded = scrollPercent * 100;
+                document.querySelector('.scroll-progress').style.width = scrollPercentRounded + '%';
+            });
+
+            // Initialize Three.js
+            function initThreeJS() {
+                const container = document.getElementById('canvas-container');
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({
+                    antialias: true,
+                    alpha: true
+                });
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setClearColor(0x000000, 0);
+                container.appendChild(renderer.domElement);
+
+                // Create particles
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particlesCount = 1500;
+                const posArray = new Float32Array(particlesCount * 3);
+
+                for (let i = 0; i < particlesCount * 3; i += 3) {
+                    posArray[i] = (Math.random() - 0.5) * 15;
+                    posArray[i + 1] = (Math.random() - 0.5) * 15;
+                    posArray[i + 2] = (Math.random() - 0.5) * 15;
+                }
+
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                const particlesMaterial = new THREE.PointsMaterial({
+                    size: 0.07,
+                    color: 0x1E88E5,
+                    transparent: true,
+                    opacity: 0.8
+                });
+
+                const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+                scene.add(particlesMesh);
+
+                // Background gradient
+                const backgroundGeometry = new THREE.PlaneGeometry(30, 30, 50, 50);
+                const gradientMaterial = new THREE.ShaderMaterial({
+                    uniforms: {
+                        time: { value: 0 },
+                        color1: { value: new THREE.Color(0x1E88E5) },
+                        color2: { value: new THREE.Color(0x1565C0) }
+                    },
+                    vertexShader: `
+                        uniform float time;
+                        varying vec2 vUv;
+                        varying float vElevation;
+                        
+                        void main() {
+                            vUv = uv;
+                            vec3 pos = position;
+                            float elevation = sin(pos.x * 2.0 + time) * 0.25;
+                            elevation += sin(pos.y * 2.0 + time) * 0.25;
+                            pos.z += elevation;
+                            vElevation = elevation;
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform vec3 color1;
+                        uniform vec3 color2;
+                        varying vec2 vUv;
+                        varying float vElevation;
+                        
+                        void main() {
+                            vec3 color = mix(color1, color2, vUv.y + sin(vUv.x * 10.0) * 0.1);
+                            gl_FragColor = vec4(color, 0.12 + vElevation * 0.08);
+                        }
+                    `
+                });
+
+                const background = new THREE.Mesh(backgroundGeometry, gradientMaterial);
+                background.position.z = -8;
+                background.rotation.x = -Math.PI / 3;
+                scene.add(background);
+
+                camera.position.z = 5;
+                camera.position.y = 2;
+
+                // Animation
+                function animate() {
+                    requestAnimationFrame(animate);
+
+                    particlesMesh.rotation.x += 0.0003;
+                    particlesMesh.rotation.y += 0.0008;
+
+                    gradientMaterial.uniforms.time.value += 0.008;
+
+                    camera.position.x = Math.sin(Date.now() * 0.0003) * 0.15;
+                    camera.position.y = 2 + Math.sin(Date.now() * 0.0005) * 0.08;
+
+                    renderer.render(scene, camera);
+                }
+
+                window.addEventListener('resize', function () {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+
+                animate();
+            }
+
+            initThreeJS();
+
+            // ROI Calculator
+            function calculateROI() {
+                const investAmount = parseFloat(document.getElementById('investAmount').value) || 10000000;
+                const monthlyProfit = parseFloat(document.getElementById('monthlyProfit').value) || 1750000;
+                const profitShare = parseFloat(document.getElementById('profitShare').value) || 30;
+
+                const monthlyReturn = (monthlyProfit * profitShare) / 100;
+                const roiMonths = Math.ceil(investAmount / monthlyReturn);
+
+                document.getElementById('monthlyReturn').textContent =
+                    'Rp ' + monthlyReturn.toLocaleString('id-ID');
+                document.getElementById('roiMonths').textContent = roiMonths;
+            }
+
+            document.getElementById('investAmount').addEventListener('input', calculateROI);
+            document.getElementById('monthlyProfit').addEventListener('input', calculateROI);
+            document.getElementById('profitShare').addEventListener('input', calculateROI);
+
+            calculateROI();
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section').forEach(section => {
+                section.style.opacity = 0;
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(section);
+            });
+
+            // Animate data cards on hover
+            const dataCards = document.querySelectorAll('.data-card');
+            dataCards.forEach((card, index) => {
+                card.style.transitionDelay = `${index * 0.1}s`;
+            });
+
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
