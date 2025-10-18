@@ -824,6 +824,132 @@
                 height: 300px;
             }
         }
+
+        /* Video Showcase Section */
+        .video-showcase {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-container-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 60px;
+        }
+
+        /* Portrait Video Container */
+        .video-portrait-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            background: #000;
+        }
+
+        .portrait-video {
+            width: 100%;
+            height: auto;
+            display: block;
+            aspect-ratio: 9/16;
+            /* Portrait ratio */
+            object-fit: cover;
+            border-radius: 25px;
+        }
+
+        /* Video Controls Styling */
+        .portrait-video::-webkit-media-controls-panel {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+        }
+
+        .portrait-video::-webkit-media-controls-play-button,
+        .portrait-video::-webkit-media-controls-current-time-display,
+        .portrait-video::-webkit-media-controls-time-remaining-display {
+            color: white;
+        }
+
+        /* Video Description */
+        .video-description {
+            padding: 20px;
+        }
+
+        .video-description h3 {
+            font-size: 2em;
+            color: #E91E63;
+            margin-bottom: 20px;
+        }
+
+        .video-description p {
+            font-size: 1.15em;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .video-highlights {
+            list-style: none;
+            padding: 0;
+            margin-top: 25px;
+        }
+
+        .video-highlights li {
+            font-size: 1.1em;
+            padding: 12px 0;
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .video-highlights li:hover {
+            transform: translateX(10px);
+            color: #E91E63;
+        }
+
+        .video-highlights li:last-child {
+            border-bottom: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .video-container-wrapper {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .video-portrait-container {
+                max-width: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .video-portrait-container {
+                max-width: 300px;
+            }
+
+            .video-description h3 {
+                font-size: 1.6em;
+            }
+
+            .video-description p {
+                font-size: 1.05em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-portrait-container {
+                max-width: 280px;
+            }
+
+            .portrait-video {
+                border-radius: 20px;
+            }
+        }
     </style>
 </head>
 
@@ -942,6 +1068,35 @@
                         <h3>Suasana Jualan</h3>
                         <p>Melayani dengan ramah setiap hari</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Video Showcase Section -->
+    <section class="video-showcase">
+        <div class="container">
+            <h2>Lihat Proses Pembuatan</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 50px; color: #666;">
+                Saksikan langsung bagaimana Tahu Bakso MAMAT dibuat dengan penuh dedikasi
+            </p>
+            <div class="video-container-wrapper">
+                <div class="video-portrait-container">
+                    <video class="portrait-video" controls preload="metadata" poster="IMG-20251018-WA0033.jpg">
+                        <source src="VID-20251018-WA0005.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung pemutaran video.
+                    </video>
+                </div>
+                <div class="video-description">
+                    <h3>🎥 Behind The Scenes</h3>
+                    <p>Dari persiapan bahan baku segar hingga proses penggorengan yang sempurna, setiap tahap kami
+                        lakukan dengan standar kualitas tinggi untuk menghadirkan Tahu Bakso MAMAT yang lezat dan
+                        higienis.</p>
+                    <ul class="video-highlights">
+                        <li>✓ Bahan baku dipilih setiap pagi</li>
+                        <li>✓ Proses pembuatan yang bersih</li>
+                        <li>✓ Digoreng dengan suhu optimal</li>
+                        <li>✓ Disajikan dalam kondisi fresh</li>
+                    </ul>
                 </div>
             </div>
         </div>
